@@ -24,7 +24,23 @@ apiClient.interceptors.response.use(
   }
 );
 
-export const CABINS = ["Homestead & Bunkie", "PinePoint"];
+export const CABINS = ["Homestead & Bunkie", "PinePoint", "Cedar Grove", "Sugar Shack"];
+
+// Short tag used in calendar pills
+export const CABIN_TAGS = {
+  "Homestead & Bunkie": "H&B",
+  "PinePoint": "PP",
+  "Cedar Grove": "CG",
+  "Sugar Shack": "SS",
+};
+
+// Earthy palette per cabin (used in occupancy + timeline labels)
+export const CABIN_STYLES = {
+  "Homestead & Bunkie": { bg: "#E9EFE9", border: "#A4BCA4", text: "#3D583D" },
+  "PinePoint":          { bg: "#E6EEF2", border: "#9DB9C9", text: "#2B4C5E" },
+  "Cedar Grove":        { bg: "#F1E8DA", border: "#C9B48E", text: "#5E4523" },
+  "Sugar Shack":        { bg: "#F5E4E0", border: "#D9A99E", text: "#7A3F32" },
+};
 
 // Deterministic family color from guest last name
 const FAMILY_PALETTE = [
@@ -47,8 +63,12 @@ export function familyColor(guestName) {
 }
 
 export function cabinStyle(cabin) {
-  if (cabin === "PinePoint") {
-    return { bg: "#E6EEF2", border: "#9DB9C9", text: "#2B4C5E" };
-  }
-  return { bg: "#E9EFE9", border: "#A4BCA4", text: "#3D583D" };
+  return (
+    {
+      "Homestead & Bunkie": { bg: "#E9EFE9", border: "#A4BCA4", text: "#3D583D" },
+      "PinePoint":          { bg: "#E6EEF2", border: "#9DB9C9", text: "#2B4C5E" },
+      "Cedar Grove":        { bg: "#F1E8DA", border: "#C9B48E", text: "#5E4523" },
+      "Sugar Shack":        { bg: "#F5E4E0", border: "#D9A99E", text: "#7A3F32" },
+    }[cabin] || { bg: "#EBE6DF", border: "#C9C2B6", text: "#4A4846" }
+  );
 }

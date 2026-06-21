@@ -24,7 +24,7 @@ SHARED_PASSWORD = os.environ.get('CABIN_SHARED_PASSWORD', 'cottage2026')
 # In-memory token store (process-local). Acceptable for a small family tool.
 ACTIVE_TOKENS = set()
 
-CABINS = ["Homestead & Bunkie", "PinePoint"]
+CABINS = ["Homestead & Bunkie", "PinePoint", "Cedar Grove", "Sugar Shack"]
 
 app = FastAPI(title="Cottage Cabin Tracker")
 api_router = APIRouter(prefix="/api")

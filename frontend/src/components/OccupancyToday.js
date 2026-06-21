@@ -1,4 +1,4 @@
-import { CABINS, familyColor } from "@/lib/api";
+import { CABINS, CABIN_STYLES, familyColor } from "@/lib/api";
 import { CheckCircle2, MoonStar } from "lucide-react";
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -25,42 +25,39 @@ export default function OccupancyToday({ bookings, loading }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {CABINS.map((cabin) => {
           const here = occupants(cabin);
-          const isPP = cabin === "PinePoint";
-          const cBg = isPP ? "var(--pinepoint-bg)" : "var(--homestead-bg)";
-          const cBorder = isPP ? "var(--pinepoint-border)" : "var(--homestead-border)";
-          const cText = isPP ? "var(--pinepoint-text)" : "var(--homestead-text)";
+          const cs = CABIN_STYLES[cabin];
           return (
             <div
               key={cabin}
               data-testid={`occupancy-${cabin.replace(/\s+/g, "-").replace("&","and").toLowerCase()}`}
               className="rounded-2xl p-5 border"
-              style={{ background: cBg, borderColor: cBorder }}
+              style={{ background: cs.bg, borderColor: cs.border }}
             >
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <div className="uppercase-label" style={{ color: cText, opacity: 0.8 }}>Cabin</div>
-                  <div className="font-display text-xl" style={{ color: cText }}>{cabin}</div>
+                  <div className="uppercase-label" style={{ color: cs.text, opacity: 0.8 }}>Cabin</div>
+                  <div className="font-display text-lg leading-tight" style={{ color: cs.text }}>{cabin}</div>
                 </div>
                 {here.length > 0 ? (
-                  <CheckCircle2 className="h-5 w-5" style={{ color: cText }} />
+                  <CheckCircle2 className="h-5 w-5" style={{ color: cs.text }} />
                 ) : (
-                  <MoonStar className="h-5 w-5" style={{ color: cText, opacity: 0.55 }} />
+                  <MoonStar className="h-5 w-5" style={{ color: cs.text, opacity: 0.55 }} />
                 )}
               </div>
 
               {loading ? (
-                <div className="text-sm" style={{ color: cText, opacity: 0.7 }}>Loading…</div>
+                <div className="text-sm" style={{ color: cs.text, opacity: 0.7 }}>Loading…</div>
               ) : here.length === 0 ? (
-                <div className="text-sm italic" style={{ color: cText, opacity: 0.7 }}>Empty tonight</div>
+                <div className="text-sm italic" style={{ color: cs.text, opacity: 0.7 }}>Empty tonight</div>
               ) : (
                 <ul className="space-y-2">
                   {here.map((b) => {
                     const fc = familyColor(b.guest_name);
                     return (
-                      <li key={b.id} className="flex items-center gap-2 text-sm" style={{ color: cText }}>
+                      <li key={b.id} className="flex items-center gap-2 text-sm" style={{ color: cs.text }}>
                         <span
                           className="inline-block h-2.5 w-2.5 rounded-full"
                           style={{ background: fc.dot }}

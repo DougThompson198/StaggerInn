@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CABINS, familyColor } from "@/lib/api";
+import { CABINS, CABIN_STYLES, familyColor } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -136,9 +136,7 @@ export default function TimelineView({ bookings, onEdit, loading }) {
 
           {/* Cabin rows */}
           {CABINS.map((cabin) => {
-            const isPP = cabin === "PinePoint";
-            const accentText = isPP ? "var(--pinepoint-text)" : "var(--homestead-text)";
-            const accentBg = isPP ? "var(--pinepoint-bg)" : "var(--homestead-bg)";
+            const cs = CABIN_STYLES[cabin];
 
             return (
               <div key={cabin} className="relative border-b" style={{ height: ROW_HEIGHT, borderColor: "var(--border-soft)" }}>
@@ -147,9 +145,9 @@ export default function TimelineView({ bookings, onEdit, loading }) {
                   className="absolute left-0 top-0 bottom-0 flex items-center pr-4"
                   style={{ width: 200 }}
                 >
-                  <div className="rounded-2xl px-3 py-2 border w-full" style={{ background: accentBg, borderColor: isPP ? "var(--pinepoint-border)" : "var(--homestead-border)" }}>
-                    <div className="uppercase-label" style={{ color: accentText, opacity: 0.7 }}>Cabin</div>
-                    <div className="font-display text-base leading-tight" style={{ color: accentText }}>{cabin}</div>
+                  <div className="rounded-2xl px-3 py-2 border w-full" style={{ background: cs.bg, borderColor: cs.border }}>
+                    <div className="uppercase-label" style={{ color: cs.text, opacity: 0.7 }}>Cabin</div>
+                    <div className="font-display text-base leading-tight" style={{ color: cs.text }}>{cabin}</div>
                   </div>
                 </div>
 

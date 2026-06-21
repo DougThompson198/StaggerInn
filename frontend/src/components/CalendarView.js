@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { familyColor } from "@/lib/api";
+import { familyColor, CABIN_TAGS } from "@/lib/api";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -107,7 +107,7 @@ export default function CalendarView({ bookings, onEdit }) {
               <div className="space-y-1 overflow-hidden">
                 {dayBookings.slice(0, 3).map((b) => {
                   const fc = familyColor(b.guest_name);
-                  const cabinTag = b.cabin === "PinePoint" ? "PP" : "H&B";
+                  const cabinTag = CABIN_TAGS[b.cabin] || b.cabin.slice(0, 3);
                   return (
                     <button
                       key={b.id}
