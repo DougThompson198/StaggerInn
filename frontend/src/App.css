@@ -1,34 +1,66 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-app: #F4F1ED;
+  --bg-card: #FFFFFF;
+  --bg-header: #EBE6DF;
+  --text-primary: #2D2B2A;
+  --text-secondary: #6C6965;
+  --text-muted: #9A958E;
+  --border-soft: #E5E0D8;
+  --accent: #C26D5C;
+  --accent-hover: #A85B4B;
+  --homestead-bg: #E9EFE9;
+  --homestead-border: #A4BCA4;
+  --homestead-text: #3D583D;
+  --pinepoint-bg: #E6EEF2;
+  --pinepoint-border: #9DB9C9;
+  --pinepoint-text: #2B4C5E;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.App {
+  font-family: 'Work Sans', sans-serif;
+  color: var(--text-primary);
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.font-display {
+  font-family: 'Fraunces', serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
 }
 
-.App-link {
-    color: #61dafb;
+.uppercase-label {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.card-soft {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 1rem;
 }
+
+/* Custom scrollbar for timeline */
+.timeline-scroll::-webkit-scrollbar { height: 10px; }
+.timeline-scroll::-webkit-scrollbar-track { background: #EBE6DF; border-radius: 8px; }
+.timeline-scroll::-webkit-scrollbar-thumb { background: #C9C2B6; border-radius: 8px; }
+.timeline-scroll::-webkit-scrollbar-thumb:hover { background: #A89F8E; }
+
+/* Print styles */
+@media print {
+  .no-print, button.no-print { display: none !important; }
+  body, .App { background: white !important; }
+  .card-soft { border: 1px solid #ccc !important; box-shadow: none !important; }
+  .timeline-scroll { overflow: visible !important; }
+  .timeline-container { width: 100% !important; }
+}
+
+/* Subtle entry animation */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fade-in-up 0.4s ease-out both; }
