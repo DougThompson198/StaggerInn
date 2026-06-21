@@ -1,0 +1,160 @@
+{
+  "theme_and_archetype": {
+    "domain": "Hospitality / Property Management / Family Dashboard",
+    "theme": "Light",
+    "archetype": "1 (Organic & Earthy)",
+    "emotion": "Warm, Organized, Natural, Relaxing"
+  },
+  "typography": {
+    "headings": {
+      "font_family": "Cabinet Grotesk",
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#2D2B2A] font-light",
+      "h2": "text-2xl sm:text-3xl tracking-tight text-[#2D2B2A]",
+      "h3": "text-xl sm:text-2xl text-[#2D2B2A]"
+    },
+    "body": {
+      "font_family": "Work Sans",
+      "base": "text-base text-[#4A4846] leading-relaxed",
+      "small": "text-sm text-[#6C6965]",
+      "label": "uppercase text-xs tracking-[0.2em] text-[#6C6965] font-semibold"
+    }
+  },
+  "colors": {
+    "background": {
+      "app": "#F4F1ED",
+      "card": "#FFFFFF",
+      "header": "#EBE6DF"
+    },
+    "text": {
+      "primary": "#2D2B2A",
+      "secondary": "#6C6965",
+      "muted": "#9A958E",
+      "inverse": "#FFFFFF"
+    },
+    "primary": {
+      "DEFAULT": "#C26D5C",
+      "hover": "#A85B4B",
+      "text": "#FFFFFF"
+    },
+    "cabins": {
+      "homestead_bunkie": {
+        "bg": "#E9EFE9",
+        "border": "#A4BCA4",
+        "text": "#3D583D"
+      },
+      "pinepoint": {
+        "bg": "#E6EEF2",
+        "border": "#9DB9C9",
+        "text": "#2B4C5E"
+      }
+    },
+    "families": [
+      {
+        "bg": "bg-orange-100",
+        "text": "text-orange-900",
+        "border": "border-orange-200"
+      },
+      {
+        "bg": "bg-blue-100",
+        "text": "text-blue-900",
+        "border": "border-blue-200"
+      },
+      {
+        "bg": "bg-stone-200",
+        "text": "text-stone-900",
+        "border": "border-stone-300"
+      },
+      {
+        "bg": "bg-rose-100",
+        "text": "text-rose-900",
+        "border": "border-rose-200"
+      }
+    ]
+  },
+  "spacing_and_layout": {
+    "container": "max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8 lg:py-12",
+    "card_padding": "p-6 sm:p-8",
+    "grid_strategy": "MODE B: The Control Room Grid (grid-cols-1 lg:grid-cols-4 gap-6 or gap-8)",
+    "surfaces": "Flat white or off-white backgrounds, 1px solid border-[#E5E0D8], rounded-2xl, subtle shadow-sm. No harsh gradients.",
+    "alignment": "Optical alignment, mobile-first responsive, left-aligned standard content."
+  },
+  "components_and_features": {
+    "auth_gate": {
+      "style": "Centered card bento box layout. Generous padding, organic feel.",
+      "testid": "auth-gate"
+    },
+    "navigation_header": {
+      "style": "Sticky header, bg-[#EBE6DF]/90 backdrop-blur-md, solid bottom border. Contains 'Add Booking' CTA.",
+      "testid": "main-nav"
+    },
+    "occupancy_widget": {
+      "style": "col-span-1 lg:col-span-4. Shows today's status at a glance. Clean, crisp neumorphism variant.",
+      "testid": "occupancy-widget"
+    },
+    "calendar_month_view": {
+      "style": "col-span-1 lg:col-span-2. Shadcn calendar customized with earthy selected dates and custom family dot markers.",
+      "testid": "calendar-view"
+    },
+    "timeline_gantt_view": {
+      "style": "col-span-1 lg:col-span-4. Horizontal scrolling. Rows for 'Homestead & Bunkie' and 'PinePoint'. Task bars use family color coding.",
+      "testid": "timeline-view"
+    },
+    "add_booking_modal": {
+      "style": "Shadcn Dialog. Uses Shadcn Form, Input, Select, and Calendar for check-in/out dates.",
+      "testid": "booking-modal"
+    },
+    "export_print": {
+      "style": "Provide a clean text-based list view or utilize CSS @media print to hide nav/buttons and expand timeline.",
+      "testid": "print-btn"
+    }
+  },
+  "testing_attributes": {
+    "rules": "All interactive elements MUST include data-testid. Kebab-case, role-based.",
+    "examples": [
+      "login-password-input",
+      "login-submit-button",
+      "add-booking-btn",
+      "booking-form-name",
+      "booking-form-cabin-select",
+      "booking-form-checkin",
+      "booking-form-checkout",
+      "booking-form-submit",
+      "timeline-item-{id}",
+      "calendar-day-{date}"
+    ]
+  },
+  "media": {
+    "images": [
+      {
+        "category": "auth_background",
+        "url": "https://images.unsplash.com/photo-1570793005386-840846445fed?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwxfHx3b29kZW4lMjBjYWJpbiUyMGZvcmVzdCUyMHN1bm55fGVufDB8fHx8MTc4MjAxMjc3NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Sunny wooden cabin in forest, perfect for the family cottage login screen background.",
+        "usage": "Use as a large side-panel or background for the shared-password login screen with a bg-black/30 overlay."
+      },
+      {
+        "category": "cabin_avatar_pinepoint",
+        "url": "https://images.unsplash.com/photo-1696914083279-3ce7756f41a4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNTl8MHwxfHNlYXJjaHwyfHxwaW5lJTIwZm9yZXN0JTIwbGFrZXxlbnwwfHx8fDE3ODIwMTI3NzR8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Pine forest by the lake.",
+        "usage": "Small thumbnail/avatar next to the 'PinePoint' cabin title in the timeline/Gantt view."
+      },
+      {
+        "category": "cabin_avatar_homestead",
+        "url": "https://images.unsplash.com/photo-1518107784960-eb57c673a7ba?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwyfHx3b29kZW4lMjBjYWJpbiUyMGZvcmVzdCUyMHN1bm55fGVufDB8fHx8MTc4MjAxMjc3NHww&ixlib=rb-4.1.0&q=85",
+        "description": "Brown house surrounded by trees.",
+        "usage": "Small thumbnail/avatar next to the 'Homestead & Bunkie' cabin title in the timeline/Gantt view."
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "1. Setup Shadcn UI components: Button, Input, Form, Dialog, Select, Calendar, Popover.",
+    "2. Ensure all UI uses the Earthy Light Theme defined in 'colors'. Do not use default Vercel/Stripe styles. Use Tailwind CSS configurations to apply the custom base palette.",
+    "3. Login Screen: Create a simple shared password input logic. Style it using the 'auth_background' image behind a frosted glass or warm overlay card.",
+    "4. Dashboard Structure: Build a header with navigation, an 'Occupancy Today' summary card, a full-month Calendar View, and a Gantt-style Timeline.",
+    "5. Gantt Timeline: Construct a horizontal scroll layout with fixed rows for 'Homestead & Bunkie' and 'PinePoint'. Display bookings as styled absolute/relative bars mapped to date durations. Use family color-coding for these bars. Integrate the provided avatar images for each cabin row.",
+    "6. Add/Edit Booking Form: Open via modal (Shadcn Dialog). Capture Guest Name, Check-in, Check-out, and Cabin. Calculate availability logic.",
+    "7. Data Attributes: Crucially map 'data-testid' onto all actionable elements (auth gate, booking buttons, date selection, timeline items) per the testing_attributes section.",
+    "8. Export / Print Functionality: Add a CSS @media print block. Hide the main navigation, 'Add Booking' buttons, and modal overlays, forcing the calendar and timeline into a clean, auto-expanding width.",
+    "9. Fonts: Import Cabinet Grotesk (for headers) and Work Sans (for body UI). Avoid standard 'Inter' for UI blocks where possible.",
+    "10. Write `.js` files for React (not `.tsx`)."
+  ]
+}
