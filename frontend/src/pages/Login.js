@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { apiClient } from "@/lib/api";
+import { loginRequest } from "@/lib/api"; // 1. Import the new loginRequest function
 import { KeyRound, Trees } from "lucide-react";
 
 const BG_IMAGE =
@@ -20,7 +20,8 @@ export default function Login() {
     if (!password) return;
     setLoading(true);
     try {
-      const { data } = await apiClient.post("/auth/login", { password });
+      // 2. Use the new loginRequest function which targets /api/auth/login
+      const { data } = await loginRequest(password); 
       localStorage.setItem("cabin_token", data.token);
       toast.success("Welcome to the cottage");
       navigate("/", { replace: true });
