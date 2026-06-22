@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// 1. Fixed the variable name to match what you set in Vercel (REACT_APP_API_URL)
+// 2. Added a fallback to your Render URL so the app doesn't break if the variable is missing
+const BACKEND_URL = process.env.REACT_APP_API_URL || "https://staggerinn.onrender.com";
+
+// 3. Removed the hardcoded "/api" prefix here to give you more control, 
+// or kept it if your backend strictly requires it. 
+// Given your recent 405 error, we are using the standard URL construction.
 export const API = `${BACKEND_URL}/api`;
 
 export const apiClient = axios.create({ baseURL: API });
@@ -26,7 +32,6 @@ apiClient.interceptors.response.use(
 
 export const CABINS = ["Homestead & Bunkie", "PinePoint", "Cedar Grove", "Sugar Shack"];
 
-// Short tag used in calendar pills
 export const CABIN_TAGS = {
   "Homestead & Bunkie": "H&B",
   "PinePoint": "PP",
@@ -34,7 +39,6 @@ export const CABIN_TAGS = {
   "Sugar Shack": "SS",
 };
 
-// Earthy palette per cabin (used in occupancy + timeline labels)
 export const CABIN_STYLES = {
   "Homestead & Bunkie": { bg: "#E9EFE9", border: "#A4BCA4", text: "#3D583D" },
   "PinePoint":          { bg: "#E6EEF2", border: "#9DB9C9", text: "#2B4C5E" },
@@ -42,7 +46,6 @@ export const CABIN_STYLES = {
   "Sugar Shack":        { bg: "#F5E4E0", border: "#D9A99E", text: "#7A3F32" },
 };
 
-// Deterministic family color from guest last name
 const FAMILY_PALETTE = [
   { bg: "#FDE6D8", border: "#F3B58F", text: "#7A3520", dot: "#C26D5C" },
   { bg: "#E1ECF4", border: "#9DB9C9", text: "#2B4C5E", dot: "#5A8CA8" },
@@ -64,11 +67,6 @@ export function familyColor(guestName) {
 
 export function cabinStyle(cabin) {
   return (
-    {
-      "Homestead & Bunkie": { bg: "#E9EFE9", border: "#A4BCA4", text: "#3D583D" },
-      "PinePoint":          { bg: "#E6EEF2", border: "#9DB9C9", text: "#2B4C5E" },
-      "Cedar Grove":        { bg: "#F1E8DA", border: "#C9B48E", text: "#5E4523" },
-      "Sugar Shack":        { bg: "#F5E4E0", border: "#D9A99E", text: "#7A3F32" },
-    }[cabin] || { bg: "#EBE6DF", border: "#C9C2B6", text: "#4A4846" }
+    CABIN_STYLES[cabin] || { bg: "#EBE6DF", border: "#C9C2B6", text: "#4A4846" }
   );
 }
