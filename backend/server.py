@@ -16,17 +16,15 @@ SHARED_PASSWORD = os.environ.get('CABIN_SHARED_PASSWORD', 'Temagami198')
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup logic
     yield
-    # Shutdown logic
     ACTIVE_TOKENS.clear()
 
 app = FastAPI(title="Cottage Cabin Tracker", lifespan=lifespan)
 
-# --- CORS Middleware (MUST be added before routers) ---
+# --- CORS Middleware ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to your Vercel URL
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -65,16 +63,6 @@ def require_auth(authorization: Annotated[Optional[str], Header()] = None):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
     return token
 
-def validate_booking(guest_name, cabin, check_in, check_out):
-    if cabin not in CABINS:
-        raise HTTPException(status_code=400, detail=f"Cabin must be one of {CABINS}")
-    try:
-        ci = date.fromisoformat(check_in)
-        co = date.fromisoformat(check_out)
-        if co <= ci: raise ValueError()
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Check-out must be after check-in (YYYY-MM-DD)")
-
 # ---------- Routes ----------
 @api_router.get("/bookings", response_model=List[Booking])
 async def list_bookings(_: str = Depends(require_auth)):
@@ -82,12 +70,12 @@ async def list_bookings(_: str = Depends(require_auth)):
 
 @api_router.post("/bookings", response_model=Booking)
 async def create_booking(payload: BookingCreate, _: str = Depends(require_auth)):
-    validate_booking(payload.guest_name, payload.cabin, payload.check_in, payload.check_out)
     booking = Booking(**payload.model_dump())
     IN_MEMORY_BOOKINGS.append(booking)
     return booking
 
-@api_router.post("/login", response_model=LoginResponse)
+# Added explicit /auth/login to match the path your frontend is calling
+@api_router.post("/auth/login", response_model=LoginResponse)
 async def login(payload: LoginRequest):
     if payload.password != SHARED_PASSWORD:
         raise HTTPException(status_code=401, detail="Incorrect password")
