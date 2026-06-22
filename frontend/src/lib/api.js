@@ -1,15 +1,17 @@
 import axios from "axios";
 
-// 1. Fixed the variable name to match what you set in Vercel (REACT_APP_API_URL)
-// 2. Added a fallback to your Render URL so the app doesn't break if the variable is missing
+// 1. Ensure the URL is correctly constructed.
+// We keep the /api prefix here because your backend router uses prefix="/api"
 const BACKEND_URL = process.env.REACT_APP_API_URL || "https://staggerinn.onrender.com";
-
-// 3. Removed the hardcoded "/api" prefix here to give you more control, 
-// or kept it if your backend strictly requires it. 
-// Given your recent 405 error, we are using the standard URL construction.
 export const API = `${BACKEND_URL}/api`;
 
 export const apiClient = axios.create({ baseURL: API });
+
+// 2. This is the helper function you should use in your Login component
+// It will request: https://staggerinn.onrender.com/api/auth/login
+export const loginRequest = (password) => {
+  return apiClient.post("/auth/login", { password });
+};
 
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("cabin_token");
