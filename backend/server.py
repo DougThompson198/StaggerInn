@@ -11,7 +11,6 @@ from typing import List, Optional, Annotated
 from datetime import datetime, timezone, date
 import uuid
 
-
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
