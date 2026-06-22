@@ -12,7 +12,7 @@ import uuid
 ACTIVE_TOKENS = set()
 IN_MEMORY_BOOKINGS = [] 
 CABINS = ["Homestead & Bunkie", "PinePoint", "Cedar Grove", "Sugar Shack"]
-SHARED_PASSWORD = os.environ.get('CABIN_SHARED_PASSWORD', 'cottage2026')
+SHARED_PASSWORD = os.environ.get('CABIN_SHARED_PASSWORD', 'Temagami198')
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -22,6 +22,16 @@ async def lifespan(app: FastAPI):
     ACTIVE_TOKENS.clear()
 
 app = FastAPI(title="Cottage Cabin Tracker", lifespan=lifespan)
+
+# --- CORS Middleware (MUST be added before routers) ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # In production, restrict this to your Vercel URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 api_router = APIRouter(prefix="/api")
 
 # ---------- Models ----------
@@ -41,13 +51,6 @@ class BookingBase(BaseModel):
 
 class BookingCreate(BookingBase):
     pass
-
-class BookingUpdate(BaseModel):
-    guest_name: Optional[str] = None
-    cabin: Optional[str] = None
-    check_in: Optional[str] = None
-    check_out: Optional[str] = None
-    notes: Optional[str] = None
 
 class Booking(BookingBase):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -84,15 +87,16 @@ async def create_booking(payload: BookingCreate, _: str = Depends(require_auth))
     IN_MEMORY_BOOKINGS.append(booking)
     return booking
 
-@api_router.post("/auth/login", response_model=LoginResponse)
+@api_router.post("/login", response_model=LoginResponse)
 async def login(payload: LoginRequest):
     if payload.password != SHARED_PASSWORD:
         raise HTTPException(status_code=401, detail="Incorrect password")
     token = secrets.token_urlsafe(32)
     ACTIVE_TOKENS.add(token)
     return LoginResponse(token=token)
+
+app.include_router(api_router)
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
-app.include_router(api_router)
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
