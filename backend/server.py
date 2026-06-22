@@ -91,6 +91,8 @@ async def login(payload: LoginRequest):
     token = secrets.token_urlsafe(32)
     ACTIVE_TOKENS.add(token)
     return LoginResponse(token=token)
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
 app.include_router(api_router)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
