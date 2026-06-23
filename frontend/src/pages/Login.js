@@ -114,7 +114,6 @@ export default function Login() {
           </form>
 
           <p className="mt-8 text-xs" style={{ color: "var(--text-muted)" }}>
-            If you want to change the password, change it in <span className="font-mono">backend/.env</span>.
           </p>
         </div>
       </div>
