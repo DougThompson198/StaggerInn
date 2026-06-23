@@ -114,7 +114,7 @@ export default function Login() {
           </form>
 
           <p className="mt-8 text-xs" style={{ color: "var(--text-muted)" }}>
-            Default password is <span className="font-mono">Temagami198</span> — change it in <span className="font-mono">backend/.env</span>.
+            If you want to change the password, change it in <span className="font-mono">backend/.env</span>.
           </p>
         </div>
       </div>
