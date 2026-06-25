@@ -140,7 +140,7 @@ export default function Dashboard() {
         <div className="animate-in">
           <div className="uppercase-label mb-2">Cottage Schedule</div>
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-light leading-tight" style={{ color: "var(--text-primary)" }}>
-            Who&apos;s at the lake.
+            Who&apos;s at Stagger Inn
           </h1>
         </div>
 

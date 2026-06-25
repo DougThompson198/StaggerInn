@@ -47,7 +47,7 @@ export default function TimelineView({ bookings, onEdit, loading }) {
 
   const visibleBookings = (cabin) =>
     bookings.filter(
-      (b) => b.cabin === cabin && b.check_out > anchorIso && b.check_in < endIso
+      (b) => b.cabin === cabin && b.check_out >= anchorIso && b.check_in < endIso
     );
 
   // group days by month for a header row
@@ -175,7 +175,7 @@ export default function TimelineView({ bookings, onEdit, loading }) {
                 {visibleBookings(cabin).map((b) => {
                   const startOffset = Math.max(0, diffDays(anchorIso, b.check_in));
                   const startCap = Math.max(diffDays(anchorIso, b.check_in), 0);
-                  const endCap = Math.min(diffDays(anchorIso, b.check_out), totalDays);
+                  const endCap = Math.min(diffDays(anchorIso, b.check_out) + 1, totalDays);
                   const width = (endCap - startCap) * COL_WIDTH;
                   if (width <= 0) return null;
                   const fc = familyColor(b.guest_name);

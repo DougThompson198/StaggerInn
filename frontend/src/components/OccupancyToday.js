@@ -6,7 +6,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 export default function OccupancyToday({ bookings, loading }) {
   const t = today();
   const occupants = (cabin) =>
-    bookings.filter((b) => b.cabin === cabin && b.check_in <= t && b.check_out > t);
+    bookings.filter((b) => b.cabin === cabin && b.check_in <= t && b.check_out >= t);
 
   return (
     <section

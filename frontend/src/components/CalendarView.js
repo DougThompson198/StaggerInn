@@ -34,7 +34,7 @@ export default function CalendarView({ bookings, onEdit }) {
   }, [cursor]);
 
   const bookingsByDay = (iso) =>
-    bookings.filter((b) => b.check_in <= iso && b.check_out > iso);
+    bookings.filter((b) => b.check_in <= iso && b.check_out >= iso);
 
   const monthLabel = new Date(cursor.y, cursor.m, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
 
