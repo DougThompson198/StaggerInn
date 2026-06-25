@@ -1,26 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { signInWithGoogle } from "@/lib/firebase";
+import { signInWithPassword } from "@/lib/firebase";
 import { KeyRound, Trees } from "lucide-react";
 
 const BG_IMAGE =
   "https://images.unsplash.com/photo-1570793005386-840846445fed?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwxfHx3b29kZW4lMjBjYWJpbiUyMGZvcmVzdCUyMHN1bm55fGVufDB8fHx8MTc4MjAxMjc3NHww&ixlib=rb-4.1.0&q=85";
 
 export default function Login() {
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!password) return;
     setLoading(true);
     try {
-      await signInWithGoogle();
+      await signInWithPassword(password);
       toast.success("Welcome to the cottage");
       navigate("/", { replace: true });
     } catch (err) {
-      toast.error(err.message || "Google sign-in failed");
+      toast.error(err.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -65,14 +69,34 @@ export default function Login() {
             Welcome back.
           </h2>
           <p className="text-base mb-10" style={{ color: "var(--text-secondary)" }}>
-            Sign in with Google to access the cabin schedule.
+            Enter the family password to access the cabin schedule.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <Label htmlFor="password" className="uppercase-label block mb-2">
+                Family Password
+              </Label>
+              <div className="relative">
+                <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "var(--text-muted)" }} />
+                <Input
+                  id="password"
+                  data-testid="login-password-input"
+                  type="password"
+                  autoFocus
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  className="pl-10 h-12 text-base"
+                  style={{ background: "#FFFFFF", borderColor: "var(--border-soft)" }}
+                />
+              </div>
+            </div>
+
             <Button
               type="submit"
               data-testid="login-submit-button"
-              disabled={loading}
+              disabled={loading || !password}
               className="w-full h-12 rounded-full text-base font-medium transition-all"
               style={{
                 background: "var(--accent)",
@@ -81,8 +105,7 @@ export default function Login() {
               onMouseEnter={(e) => (e.currentTarget.style.background = "var(--accent-hover)")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "var(--accent)")}
             >
-              <KeyRound className="h-4 w-4 mr-2" />
-              {loading ? "Opening the door..." : "Continue with Google"}
+              {loading ? "Opening the door..." : "Open the logbook"}
             </Button>
           </form>
 

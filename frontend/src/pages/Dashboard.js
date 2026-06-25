@@ -8,7 +8,7 @@ import {
   createBooking,
   deleteBooking,
   listBookings,
-  signOutGoogle,
+  signOutPassword,
   updateBooking,
 } from "@/lib/firebase";
 import OccupancyToday from "@/components/OccupancyToday";
@@ -69,7 +69,7 @@ export default function Dashboard() {
   const openNew = () => { setEditing(null); setDialogOpen(true); };
 
   const logout = async () => {
-    await signOutGoogle();
+    await signOutPassword();
     navigate("/login");
   };
 

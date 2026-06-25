@@ -2,9 +2,8 @@ import { initializeApp } from "firebase/app";
 import {
   browserLocalPersistence,
   getAuth,
-  GoogleAuthProvider,
   setPersistence,
-  signInWithPopup,
+  signInAnonymously,
   signOut,
 } from "firebase/auth";
 import {
@@ -30,18 +29,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const googleProvider = new GoogleAuthProvider();
 
 setPersistence(auth, browserLocalPersistence);
 
-export async function signInWithGoogle() {
-  const result = await signInWithPopup(auth, googleProvider);
+export async function signInWithPassword(password) {
+  if (password !== "Temagami198") {
+    throw new Error("Incorrect password");
+  }
+  const result = auth.currentUser
+    ? { user: auth.currentUser }
+    : await signInAnonymously(auth);
   const token = await result.user.getIdToken();
   localStorage.setItem("cabin_token", token);
   return { user: result.user, token };
 }
 
-export async function signOutGoogle() {
+export async function signOutPassword() {
   localStorage.removeItem("cabin_token");
   await signOut(auth);
 }
