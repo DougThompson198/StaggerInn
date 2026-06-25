@@ -4,8 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Plus, LogOut, Printer, Trees, Calendar as CalIcon, GanttChart } from "lucide-react";
-import { apiClient } from "@/lib/api";
-import { signOutGoogle } from "@/lib/firebase";
+import {
+  createBooking,
+  deleteBooking,
+  listBookings,
+  signOutGoogle,
+  updateBooking,
+} from "@/lib/firebase";
 import OccupancyToday from "@/components/OccupancyToday";
 import CalendarView from "@/components/CalendarView";
 import TimelineView from "@/components/TimelineView";
@@ -21,8 +26,7 @@ export default function Dashboard() {
   const loadBookings = async () => {
     setLoading(true);
     try {
-      const { data } = await apiClient.get("/bookings");
-      setBookings(data);
+      setBookings(await listBookings());
     } catch (e) {
       toast.error("Could not load bookings");
     } finally {
@@ -35,10 +39,10 @@ export default function Dashboard() {
   const handleSave = async (payload) => {
     try {
       if (editing) {
-        await apiClient.put(`/bookings/${editing.id}`, payload);
+        await updateBooking(editing.id, payload);
         toast.success("Booking updated");
       } else {
-        await apiClient.post("/bookings", payload);
+        await createBooking(payload);
         toast.success("Booking added");
       }
       setDialogOpen(false);
@@ -51,7 +55,7 @@ export default function Dashboard() {
 
   const handleDelete = async (id) => {
     try {
-      await apiClient.delete(`/bookings/${id}`);
+      await deleteBooking(id);
       toast.success("Booking removed");
       setDialogOpen(false);
       setEditing(null);

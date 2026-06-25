@@ -4,10 +4,27 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 function RequireAuth({ children }) {
-  const token = localStorage.getItem("cabin_token");
-  if (!token) return <Navigate to="/login" replace />;
+  const [checking, setChecking] = useState(true);
+  const [user, setUser] = useState(() => auth.currentUser);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, async (nextUser) => {
+      setUser(nextUser);
+      if (nextUser) {
+        localStorage.setItem("cabin_token", await nextUser.getIdToken());
+      } else {
+        localStorage.removeItem("cabin_token");
+      }
+      setChecking(false);
+    });
+  }, []);
+
+  if (checking) return null;
+  if (!user) return <Navigate to="/login" replace />;
   return children;
 }
 

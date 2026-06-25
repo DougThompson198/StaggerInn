@@ -7,6 +7,15 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+  updateDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyB27yvTXac8DUivuj611CD06WIuz8ad9A0",
@@ -20,6 +29,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
 
 setPersistence(auth, browserLocalPersistence);
@@ -34,4 +44,38 @@ export async function signInWithGoogle() {
 export async function signOutGoogle() {
   localStorage.removeItem("cabin_token");
   await signOut(auth);
+}
+
+function bookingFromDoc(snapshot) {
+  return {
+    id: snapshot.id,
+    ...snapshot.data(),
+  };
+}
+
+export async function listBookings() {
+  const snapshot = await getDocs(collection(db, "bookings"));
+  return snapshot.docs
+    .map(bookingFromDoc)
+    .sort((a, b) => (a.check_in || "").localeCompare(b.check_in || ""));
+}
+
+export async function createBooking(payload) {
+  const now = new Date().toISOString();
+  const docRef = await addDoc(collection(db, "bookings"), {
+    ...payload,
+    created_at: now,
+    updated_at: now,
+  });
+  return { id: docRef.id, ...payload, created_at: now, updated_at: now };
+}
+
+export async function updateBooking(id, payload) {
+  const updated_at = new Date().toISOString();
+  await updateDoc(doc(db, "bookings", id), { ...payload, updated_at });
+  return { id, ...payload, updated_at };
+}
+
+export async function deleteBooking(id) {
+  await deleteDoc(doc(db, "bookings", id));
 }
