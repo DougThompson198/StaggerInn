@@ -1,20 +1,20 @@
 import axios from "axios";
+import { auth } from "@/lib/firebase";
 
 // 1. Ensure the URL is correctly constructed.
 // We keep the /api prefix here because your backend router uses prefix="/api"
-const BACKEND_URL = process.env.REACT_APP_API_URL || "https://staggerinn.onrender.com";
+const BACKEND_URL =
+  process.env.REACT_APP_API_URL ||
+  process.env.REACT_APP_BACKEND_URL ||
+  "https://staggerinn.onrender.com";
 export const API = `${BACKEND_URL}/api`;
 
 export const apiClient = axios.create({ baseURL: API });
 
-// 2. This is the helper function you should use in your Login component
-// It will request: https://staggerinn.onrender.com/api/auth/login
-export const loginRequest = (password) => {
-  return apiClient.post("/auth/login", { password });
-};
-
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("cabin_token");
+apiClient.interceptors.request.use(async (config) => {
+  const token = auth.currentUser
+    ? await auth.currentUser.getIdToken()
+    : localStorage.getItem("cabin_token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

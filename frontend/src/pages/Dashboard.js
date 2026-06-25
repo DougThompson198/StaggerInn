@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Plus, LogOut, Printer, Trees, Calendar as CalIcon, GanttChart } from "lucide-react";
 import { apiClient } from "@/lib/api";
+import { signOutGoogle } from "@/lib/firebase";
 import OccupancyToday from "@/components/OccupancyToday";
 import CalendarView from "@/components/CalendarView";
 import TimelineView from "@/components/TimelineView";
@@ -63,8 +64,8 @@ export default function Dashboard() {
   const openEdit = (b) => { setEditing(b); setDialogOpen(true); };
   const openNew = () => { setEditing(null); setDialogOpen(true); };
 
-  const logout = () => {
-    localStorage.removeItem("cabin_token");
+  const logout = async () => {
+    await signOutGoogle();
     navigate("/login");
   };
 
